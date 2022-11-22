@@ -1,7 +1,7 @@
 import chalk from "chalk";
 import debugCreator from "debug";
 import mongoose from "mongoose";
-import environment from "../server/loadEnvironment.js";
+import environment from "../loadEnvironment.js";
 
 const debug = debugCreator("beCooked:database");
 
