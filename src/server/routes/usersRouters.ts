@@ -1,9 +1,15 @@
 import express from "express";
+import { validate } from "express-validation";
 import registerUser from "../controllers/usersControllers/usersControllers.js";
+import registerUserSchema from "../schemas/registerUserSchema.js";
 
 // eslint-disable-next-line new-cap
 const usersRouter = express.Router();
 
-usersRouter.post("/sign-up", registerUser);
+usersRouter.post(
+  "/sign-up",
+  validate(registerUserSchema, {}, { abortEarly: false }),
+  registerUser
+);
 
 export default usersRouter;
