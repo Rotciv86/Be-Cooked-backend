@@ -1,4 +1,4 @@
-import CustomError from "./CustomError.js";
+import CustomError from "./tomError.js";
 
 describe("Given the class CurtomError", () => {
   describe("When it's initialized with the message 'Error', status 500, and public message 'There was a server error, try again later'", () => {
