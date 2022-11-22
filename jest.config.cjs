@@ -8,7 +8,7 @@ module.exports = {
     "src/**/*.ts",
     "!src/index.ts",
     "!src/server/startServer.ts",
-    "!src/server/loadEnvironment.ts",
+    "!src/loadEnvironment.ts",
     "!src/database/databaseConnection.ts",
   ],
 };
