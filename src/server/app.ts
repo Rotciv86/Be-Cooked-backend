@@ -3,6 +3,7 @@ import morgan from "morgan";
 import cors from "cors";
 import environment from "../loadEnvironment.js";
 import { errorNotFound, generalError } from "./middlewares/error.js";
+import usersRouter from "./routes/usersRouters.js";
 
 const { corsAllowedDomain } = environment;
 
@@ -16,6 +17,8 @@ const options: cors.CorsOptions = { origin: allowedOrigins };
 app.use(cors(options));
 app.use(morgan("dev"));
 app.use(express.json());
+
+app.use("/users", usersRouter);
 
 app.use(errorNotFound);
 
