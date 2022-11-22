@@ -10,7 +10,5 @@ module.exports = {
     "!src/server/startServer.ts",
     "!src/server/loadEnvironment.ts",
     "!src/database/databaseConnection.ts",
-    "!src/database/models/User.ts",
-    "!src/server/app.ts",
   ],
 };
