@@ -1,0 +1,64 @@
+{
+	"info": {
+		"_postman_id": "982b8be0-a99f-431c-a7e4-fc3f76e34b91",
+		"name": "Be Cooked",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23870222"
+	},
+	"item": [
+		{
+			"name": "Sign up",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"Lionel\",\r\n    \"password\": \"301010\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}users/sign-up/",
+					"host": [
+						"{{host}}users"
+					],
+					"path": [
+						"sign-up",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "https://victor-merino-back-final-project-202209.onrender.com/",
+			"type": "string"
+		}
+	]
+}
