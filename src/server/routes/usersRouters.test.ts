@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 import databaseConnection from "../../database/databaseConnection.js";
 import User from "../../database/models/User.js";
 import app from "../app.js";
-import type { RegisterUserData } from "../types.js";
+import type { RegisterUserData, UserCredentials } from "../types.js";
 
 let server: MongoMemoryServer;
 
@@ -92,6 +92,24 @@ describe("Given a POST /users/login endpoint", () => {
         .expect(expectedStatus);
 
       expect(response.body).toHaveProperty(userToken);
+    });
+  });
+
+  describe("When it receives a request with a not existent in database username 'Round' and password '1313'", () => {
+    test("Then it should respond with status code 401 and the message 'Wrong credentials'", async () => {
+      const requestBody: UserCredentials = {
+        username: "Round",
+        password: "1313",
+      };
+      const expectedStatus = 401;
+      const expectedMessage = { error: "Wrong credentials" };
+
+      const response = await request(app)
+        .post("/users/login")
+        .send(requestBody)
+        .expect(expectedStatus);
+
+      expect(response.body).toStrictEqual(expectedMessage);
     });
   });
 });
