@@ -68,3 +68,30 @@ describe("Given the POST /users/sign-up endpoint", () => {
     });
   });
 });
+
+describe("Given a POST /users/login endpoint", () => {
+  beforeEach(async () => {
+    const hashedPassword = await bcrypt.hash("1234", 10);
+    const registerUserData = {
+      username: "Mario",
+      password: hashedPassword,
+    };
+
+    await User.create(registerUserData);
+  });
+
+  describe("When it receives a request with an existent database username 'Mario' and password '1234'", () => {
+    test("Then it should respond with a 200 status and their corresponding token", async () => {
+      const expectedStatus = 200;
+      const loginData = { username: "Mario", password: "1234" };
+      const userToken = "accessToken";
+
+      const response = await request(app)
+        .post("/users/login")
+        .send(loginData)
+        .expect(expectedStatus);
+
+      expect(response.body).toHaveProperty(userToken);
+    });
+  });
+});
