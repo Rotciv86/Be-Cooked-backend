@@ -2,7 +2,7 @@ import type { NextFunction, Request, Response } from "express";
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import type { RegisterUserData } from "../../types.js";
-import registerUser from "./usersControllers.js";
+import { registerUser } from "./usersControllers.js";
 import User from "../../../database/models/User.js";
 
 const res: Partial<Response> = {
