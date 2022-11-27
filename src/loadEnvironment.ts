@@ -7,7 +7,7 @@ const environment = {
   port: process.env.PORT,
   databaseUrl: process.env.MONGO_DB,
   corsAllowedDomain: process.env.CORS_ALLOWED_DOMAIN,
-  jwtSecret: process.env.JWT_TOKEN,
+  jwtSecret: process.env.JWT_SECRET,
 };
 
 export default environment;
