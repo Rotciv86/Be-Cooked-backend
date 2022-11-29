@@ -41,13 +41,7 @@ describe("Given a GET /recipes/list", () => {
 
       const response = await request(app).get("/recipes/list").expect(status);
 
-      expect(response.body).toStrictEqual({
-        recipes: [
-          {
-            recipes: null,
-          },
-        ],
-      });
+      expect(response.body).toStrictEqual({ recipes: null });
     });
   });
 
