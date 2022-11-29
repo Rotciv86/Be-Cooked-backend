@@ -13,7 +13,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n    \"username\":\"Lionel\",\r\n    \"password\": \"301010\"\r\n}",
+          "raw": "{\r\n    \"username\":\"Liol\",\r\n    \"password\": \"3010\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -21,9 +21,22 @@
           }
         },
         "url": {
-          "raw": "{{host}}users/sign-up/",
+          "raw": "{{host}}users/login/",
           "host": ["{{host}}users"],
-          "path": ["sign-up", ""]
+          "path": ["login", ""]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Recipe-list",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{host}}recipes/list",
+          "host": ["{{host}}recipes"],
+          "path": ["list"]
         }
       },
       "response": []
