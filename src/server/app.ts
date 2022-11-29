@@ -4,6 +4,7 @@ import cors from "cors";
 import environment from "../loadEnvironment.js";
 import { errorNotFound, generalError } from "./middlewares/error.js";
 import usersRouter from "./routes/usersRouters.js";
+import recipesRouter from "./routes/recipesRouters/recipesRouters.js";
 
 const { corsAllowedDomain } = environment;
 
@@ -19,6 +20,8 @@ app.use(morgan("dev"));
 app.use(express.json());
 
 app.use("/users", usersRouter);
+
+app.use("/recipes", recipesRouter);
 
 app.use(errorNotFound);
 

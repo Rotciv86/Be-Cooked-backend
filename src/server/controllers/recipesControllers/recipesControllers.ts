@@ -7,7 +7,7 @@ import Recipe from "../../../database/models/Recipe.js";
 
 const debug = debugCreator("beCooked:server:controllers:recipesController");
 
-export const loadAllRecipes = async (
+export const getAllRecipes = async (
   req: Request,
   res: Response,
   next: NextFunction
