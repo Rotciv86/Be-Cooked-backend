@@ -24,7 +24,7 @@ export const getAllRecipes = async (
       next(customError);
     }
 
-    res.status(200).json({ recipes: [{ recipes }] });
+    res.status(200).json({ recipes });
     debug(chalk.green(`${recipes.length} recipes found`));
   } catch (error: unknown) {
     next(error);
