@@ -31,3 +31,24 @@ export const getAllRecipes = async (
     debug(chalk.red("We couldn't find any recipe"));
   }
 };
+
+export const deleteRecipe = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { recipeId } = req.params;
+
+  try {
+    const deletedRecipe = await Recipe.findByIdAndDelete(recipeId);
+
+    res.status(200).json(deletedRecipe);
+  } catch (error: unknown) {
+    const customError = new CustomError(
+      (error as Error).message,
+      404,
+      "Recipe not found"
+    );
+    next(customError);
+  }
+};
