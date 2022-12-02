@@ -3,7 +3,8 @@ import debugCreator from "debug";
 
 import chalk from "chalk";
 import CustomError from "../../../utils/CustomError.js";
-import Recipe from "../../../database/models/Recipe.js";
+import type { RecipeStructure } from "../../../database/models/Recipe.js";
+import { Recipe } from "../../../database/models/Recipe.js";
 
 const debug = debugCreator("beCooked:server:controllers:recipesController");
 
@@ -50,5 +51,30 @@ export const deleteRecipe = async (
       "Recipe not found"
     );
     next(customError);
+  }
+};
+
+export const createRecipe = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const admin = "638a78c1055780b4dcfbcc6d";
+  const receivedRecipe = req.body as RecipeStructure;
+
+  try {
+    const newRecipe = await Recipe.create({
+      ...receivedRecipe,
+      owner: admin,
+    });
+
+    res.status(201).json({
+      recipe: {
+        ...newRecipe.toJSON(),
+        image: newRecipe.image,
+      },
+    });
+  } catch (error: unknown) {
+    next(error);
   }
 };
