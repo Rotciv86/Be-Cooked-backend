@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
-import { getAllRecipes } from "./recipesControllers.js";
+import { deleteRecipe, getAllRecipes } from "./recipesControllers.js";
 import CustomError from "../../../utils/CustomError.js";
 import { mockRecipe } from "../../../mocks/mockRecipe.js";
 import Recipe from "../../../database/models/Recipe.js";
@@ -65,6 +65,44 @@ describe("Given a contactsController", () => {
       );
 
       expect(next).toHaveBeenCalledWith(customError);
+    });
+  });
+});
+
+describe("Given a deleteRecipe controller", () => {
+  describe("When it receives a request with a recipeId", () => {
+    test("Then it should return a response and call its method status with code 200 and its method json with the received recipe", async () => {
+      const expectedStatus = 200;
+      const recipeToDelete = mockRecipe;
+      const req: Partial<Request> = {
+        params: { recipeId: mockRecipe.recipeId },
+      };
+
+      Recipe.findByIdAndDelete = jest.fn().mockReturnValue(recipeToDelete);
+
+      await deleteRecipe(req as Request, res as Response, next as NextFunction);
+
+      expect(res.status).toHaveBeenCalledWith(expectedStatus);
+      expect(res.json).toHaveBeenCalledWith(recipeToDelete);
+    });
+  });
+
+  describe("When it receives a request without any recipeId", () => {
+    test("Then next function should be called with a Custom error with public message 'Recipe not found'", async () => {
+      const req: Partial<Request> = {
+        params: { recipeId: mockRecipe.recipeId },
+      };
+      const expectedError = new CustomError(
+        "Recipe not found",
+        404,
+        "Recipe not found"
+      );
+
+      Recipe.findByIdAndDelete = jest.fn().mockRejectedValueOnce(expectedError);
+
+      await deleteRecipe(req as Request, res as Response, next as NextFunction);
+
+      expect(next).toHaveBeenCalledWith(expectedError);
     });
   });
 });
