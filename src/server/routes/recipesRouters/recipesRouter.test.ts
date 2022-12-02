@@ -4,13 +4,16 @@ import mongoose from "mongoose";
 import app from "../../app";
 import databaseConnection from "../../../database/databaseConnection";
 import Recipe from "../../../database/models/Recipe";
+import { mockRecipe } from "../../../mocks/mockRecipe";
 
 let server: MongoMemoryServer;
+const recipe = mockRecipe;
 
 beforeAll(async () => {
   await mongoose.disconnect();
   server = await MongoMemoryServer.create();
   await databaseConnection(server.getUri());
+  await Recipe.create(recipe);
 });
 
 beforeEach(async () => {
@@ -35,13 +38,13 @@ describe("Given a GET /recipes/list", () => {
 
   describe("When it receives a request with no recipes in the data base", () => {
     test("Then it should respond with a 200 status and a object with property 'recipes' that has an array of empty recipes", async () => {
-      const status = 200;
+      const status = 204;
 
       Recipe.find = jest.fn().mockReturnValue(null);
 
       const response = await request(app).get("/recipes/list").expect(status);
 
-      expect(response.body).toStrictEqual({ recipes: null });
+      expect(response.body).toStrictEqual({});
     });
   });
 
@@ -56,6 +59,18 @@ describe("Given a GET /recipes/list", () => {
       const response = await request(app).get("/recipes/list").expect(status);
 
       expect(response.body).toStrictEqual({ error: "General error server" });
+    });
+  });
+});
+
+describe("Given the DELETE '/recipes/delete/:recipeId' endpoint", () => {
+  describe("When it receives a request with  a valid recipeId", () => {
+    test("Then it should return a response with status 200", async () => {
+      const expectedStatus = 200;
+
+      await request(app)
+        .delete(`/recipes/delete/${recipe.recipeId}`)
+        .expect(expectedStatus);
     });
   });
 });
