@@ -2,7 +2,7 @@ import type { Request, Response, NextFunction } from "express";
 import { deleteRecipe, getAllRecipes } from "./recipesControllers.js";
 import CustomError from "../../../utils/CustomError.js";
 import { mockRecipe } from "../../../mocks/mockRecipe.js";
-import Recipe from "../../../database/models/Recipe.js";
+import { Recipe } from "../../../database/models/Recipe.js";
 
 const res: Partial<Response> = {
   status: jest.fn().mockReturnThis(),

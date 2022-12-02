@@ -1,3 +1,4 @@
+import type { InferSchemaType } from "mongoose";
 import { model, Schema } from "mongoose";
 
 export const recipeSchema = new Schema({
@@ -32,6 +33,6 @@ export const recipeSchema = new Schema({
   },
 });
 
-const Recipe = model("Recipe", recipeSchema, "recipes");
+export type RecipeStructure = InferSchemaType<typeof recipeSchema>;
 
-export default Recipe;
+export const Recipe = model("Recipe", recipeSchema, "recipes");

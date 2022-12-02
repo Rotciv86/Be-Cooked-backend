@@ -3,7 +3,7 @@ import request from "supertest";
 import mongoose from "mongoose";
 import app from "../../app";
 import databaseConnection from "../../../database/databaseConnection";
-import Recipe from "../../../database/models/Recipe";
+import { Recipe } from "../../../database/models/Recipe";
 import { mockRecipe } from "../../../mocks/mockRecipe";
 
 let server: MongoMemoryServer;
