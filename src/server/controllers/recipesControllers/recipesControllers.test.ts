@@ -1,5 +1,9 @@
 import type { Request, Response, NextFunction } from "express";
-import { deleteRecipe, getAllRecipes } from "./recipesControllers.js";
+import {
+  createRecipe,
+  deleteRecipe,
+  getAllRecipes,
+} from "./recipesControllers.js";
 import CustomError from "../../../utils/CustomError.js";
 import { mockRecipe } from "../../../mocks/mockRecipe.js";
 import { Recipe } from "../../../database/models/Recipe.js";
@@ -11,7 +15,7 @@ const res: Partial<Response> = {
 
 const next = jest.fn();
 
-describe("Given a contactsController", () => {
+describe("Given the contactsController", () => {
   describe("When it is invoked with getAllRecipes method with the recipe 'Arroz caldoso con bogavante' wich is in the data base", () => {
     test("Then it should respond with a 200 status", async () => {
       const status = 200;
@@ -103,6 +107,49 @@ describe("Given a deleteRecipe controller", () => {
       await deleteRecipe(req as Request, res as Response, next as NextFunction);
 
       expect(next).toHaveBeenCalledWith(expectedError);
+    });
+  });
+});
+
+describe("Given a createRecipe controller", () => {
+  describe("When it receives a request", () => {
+    test("Then it should invoke its response with status 201 and the new created recipe", async () => {
+      const expectedStatus = 201;
+      const recipe = mockRecipe;
+      const expectedResponse = { ...recipe };
+      const req: Partial<Request> = {
+        params: { userId: mockRecipe.owner },
+      };
+
+      req.body = recipe;
+
+      Recipe.create = jest.fn().mockReturnValueOnce({
+        ...recipe,
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        toJSON: jest.fn().mockReturnValueOnce(recipe),
+      });
+
+      await createRecipe(req as Request, res as Response, next as NextFunction);
+
+      expect(res.status).toHaveBeenCalledWith(expectedStatus);
+      expect(res.json).toHaveBeenCalledWith({
+        recipe: expectedResponse,
+      });
+    });
+  });
+
+  describe("When it receives a request and Session create rejects", () => {
+    test("Then next should be invoked with an error", async () => {
+      const req: Partial<Request> = {
+        params: {},
+      };
+      const error = new Error();
+
+      Recipe.create = jest.fn().mockRejectedValue(error);
+
+      await createRecipe(req as Request, res as Response, next as NextFunction);
+
+      expect(next).toHaveBeenCalledWith(error);
     });
   });
 });
