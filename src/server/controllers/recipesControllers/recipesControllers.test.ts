@@ -69,9 +69,9 @@ describe("Given a contactsController", () => {
   });
 });
 
-describe("Given a deleteVenue controller", () => {
-  describe("When it receives a request with a venueId", () => {
-    test("Then it should return a response and call its method status with code 200 and its method json with the received venue", async () => {
+describe("Given a deleteRecipe controller", () => {
+  describe("When it receives a request with a recipeId", () => {
+    test("Then it should return a response and call its method status with code 200 and its method json with the received recipe", async () => {
       const expectedStatus = 200;
       const recipeToDelete = mockRecipe;
       const req: Partial<Request> = {
@@ -87,8 +87,8 @@ describe("Given a deleteVenue controller", () => {
     });
   });
 
-  describe("When it receives a request without any venueId", () => {
-    test("Then next function should be called with a Custom error with public message 'Venue not found'", async () => {
+  describe("When it receives a request without any recipeId", () => {
+    test("Then next function should be called with a Custom error with public message 'Recipe not found'", async () => {
       const req: Partial<Request> = {
         params: { recipeId: mockRecipe.recipeId },
       };
