@@ -136,7 +136,7 @@ describe("Given a createRecipe controller", () => {
     });
   });
 
-  describe("When it receives a request and Session create rejects", () => {
+  describe("When it receives a request and recipe create rejects", () => {
     test("Then next should be invoked with an error", async () => {
       const req: Partial<Request> = {
         params: {},

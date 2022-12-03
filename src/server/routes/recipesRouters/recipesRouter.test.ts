@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { MongoMemoryServer } from "mongodb-memory-server";
 import request from "supertest";
 import mongoose from "mongoose";
@@ -48,7 +49,7 @@ describe("Given a GET /recipes/list", () => {
     });
   });
 
-  describe("When it receives a request and an interval server error happens", () => {
+  describe("When it receives a request and an internal server error happens", () => {
     test("Then it should return a 500 status", async () => {
       const status = 500;
 
@@ -71,6 +72,29 @@ describe("Given the DELETE '/recipes/delete/:recipeId' endpoint", () => {
       await request(app)
         .delete(`/recipes/delete/${recipe.recipeId}`)
         .expect(expectedStatus);
+    });
+  });
+});
+
+describe("When use the endpoint POST /recipes/create", () => {
+  describe("And it receives a correct request with a correct recipe", () => {
+    test("Then it should response with the new recipe created", async () => {
+      const response = await request(app)
+        .post("/recipes/create")
+        .send(recipe)
+        .expect(201);
+
+      expect(response.body).toHaveProperty("recipe");
+    });
+  });
+
+  describe("And it receives an uncomplete recipe", () => {
+    test("Then it should response with status 500 and a message 'General error server'", async () => {
+      const message = "General error server";
+
+      const response = await request(app).post("/recipes/create").expect(500);
+
+      expect(response.body).toHaveProperty("error", message);
     });
   });
 });
