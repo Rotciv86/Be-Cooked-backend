@@ -70,8 +70,7 @@ export const createRecipe = async (
 
     res.status(201).json({
       recipe: {
-        ...newRecipe.toJSON(),
-        image: newRecipe.image,
+        newRecipe,
       },
     });
   } catch (error: unknown) {

@@ -115,30 +115,28 @@ describe("Given a createRecipe controller", () => {
   describe("When it receives a request", () => {
     test("Then it should invoke its response with status 201 and the new created recipe", async () => {
       const expectedStatus = 201;
-      const recipe = mockRecipe;
-      const expectedResponse = { ...recipe };
+      const recipes = mockRecipe;
+      const expectedResponse = { ...recipes };
       const req: Partial<Request> = {
         params: { userId: mockRecipe.owner },
       };
 
-      req.body = recipe;
+      req.body = recipes;
 
-      Recipe.create = jest.fn().mockReturnValueOnce({
-        ...recipe,
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        toJSON: jest.fn().mockReturnValueOnce(recipe),
+      Recipe.create = jest.fn().mockResolvedValue({
+        recipes,
       });
 
       await createRecipe(req as Request, res as Response, next as NextFunction);
 
       expect(res.status).toHaveBeenCalledWith(expectedStatus);
       expect(res.json).toHaveBeenCalledWith({
-        recipe: expectedResponse,
+        recipes: expectedResponse,
       });
     });
   });
 
-  describe("When it receives a request and Session create rejects", () => {
+  describe("When it receives a request and recipe create rejects", () => {
     test("Then next should be invoked with an error", async () => {
       const req: Partial<Request> = {
         params: {},
