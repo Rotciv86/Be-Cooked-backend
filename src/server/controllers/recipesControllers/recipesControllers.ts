@@ -1,7 +1,7 @@
 import type { Request, Response, NextFunction } from "express";
 import debugCreator from "debug";
-
 import chalk from "chalk";
+import "../../../loadEnvironment.js";
 import CustomError from "../../../utils/CustomError.js";
 import type { RecipeStructure } from "../../../database/models/Recipe.js";
 import { Recipe } from "../../../database/models/Recipe.js";
