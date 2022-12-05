@@ -24,7 +24,7 @@ export const recipeSchema = new Schema({
   },
   imageBackup: {
     type: String,
-    required: true,
+    required: false,
   },
   owner: {
     type: Schema.Types.ObjectId,
