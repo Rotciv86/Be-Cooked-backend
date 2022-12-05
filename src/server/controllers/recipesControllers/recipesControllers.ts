@@ -77,3 +77,22 @@ export const createRecipe = async (
     next(error);
   }
 };
+
+export const getRecipeById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { recipeId } = req.params;
+  try {
+    const recipe = await Recipe.findById(recipeId);
+    res.status(200).json({ recipe });
+  } catch (error: unknown) {
+    const customError = new CustomError(
+      (error as Error).message,
+      500,
+      "Recipe not found"
+    );
+    next(customError);
+  }
+};
