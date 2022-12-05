@@ -12,6 +12,6 @@ const recipesRouter = express.Router();
 recipesRouter.get("/list", getAllRecipes);
 recipesRouter.delete("/delete/:recipeId", deleteRecipe);
 recipesRouter.post("/create", createRecipe);
-recipesRouter.get("detail/:recipeId", getRecipeById);
+recipesRouter.get("/detail/:recipeId", getRecipeById);
 
 export default recipesRouter;
