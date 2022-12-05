@@ -3,6 +3,7 @@ import {
   createRecipe,
   deleteRecipe,
   getAllRecipes,
+  getRecipeById,
 } from "./recipesControllers.js";
 import CustomError from "../../../utils/CustomError.js";
 import { mockRecipe } from "../../../mocks/mockRecipe.js";
@@ -15,7 +16,7 @@ const res: Partial<Response> = {
 
 const next = jest.fn();
 
-describe("Given the contactsController", () => {
+describe("Given the recipesController", () => {
   describe("When it is invoked with getAllRecipes method with the recipe 'Arroz caldoso con bogavante' wich is in the data base", () => {
     test("Then it should respond with a 200 status", async () => {
       const status = 200;
@@ -73,7 +74,7 @@ describe("Given the contactsController", () => {
   });
 });
 
-describe("Given a deleteRecipe controller", () => {
+describe("Given the deleteRecipe controller", () => {
   describe("When it receives a request with a recipeId", () => {
     test("Then it should return a response and call its method status with code 200 and its method json with the received recipe", async () => {
       const expectedStatus = 200;
@@ -111,7 +112,7 @@ describe("Given a deleteRecipe controller", () => {
   });
 });
 
-describe("Given a createRecipe controller", () => {
+describe("Given the createRecipe controller", () => {
   describe("When it receives a request", () => {
     test("Then it should invoke its response with status 201 and the new created recipe", async () => {
       const expectedStatus = 201;
@@ -148,6 +149,42 @@ describe("Given a createRecipe controller", () => {
       await createRecipe(req as Request, res as Response, next as NextFunction);
 
       expect(next).toHaveBeenCalledWith(error);
+    });
+  });
+});
+
+describe("Given a getRecipeById constroller", () => {
+  describe("When it receives a response", () => {
+    test("Then it should call its method with status '200'", async () => {
+      const expectedStatus = 200;
+      const recipeToGet = mockRecipe;
+
+      const req: Partial<Request> = {
+        params: { recipeId: mockRecipe.recipeId },
+      };
+
+      Recipe.findById = jest.fn().mockReturnValue(recipeToGet);
+      await getRecipeById(req as Request, res as Response, null);
+
+      expect(res.status).toHaveBeenCalledWith(expectedStatus);
+    });
+  });
+
+  describe("When it receives a response with an error", () => {
+    test("Then it should call the next function with a customError", async () => {
+      const req: Partial<Request> = {
+        params: { recipeId: mockRecipe.recipeId },
+      };
+      const expectedError = new CustomError("", 500, "Recipe not found");
+
+      Recipe.findById = jest.fn().mockRejectedValue(expectedError);
+      await getRecipeById(
+        req as Request,
+        res as Response,
+        next as NextFunction
+      );
+
+      expect(next).toHaveBeenCalledWith(expectedError);
     });
   });
 });
